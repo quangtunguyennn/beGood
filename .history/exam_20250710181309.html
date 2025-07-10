@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assignment-style.css">
+  <style>
+    body {
+      background: linear-gradient(120deg, #e3e9ff 0%, #f7faff 100%);
+      font-family: 'Inter', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .main-header {
+      background: #fff;
+      box-shadow: 0 2px 16px 0 rgba(26,35,126,0.07);
+      padding: 0 0 0 0;
+    }
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 24px 18px 24px;
+    }
+    .app-title {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: #1a237e;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .icon-exam {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="%23e3e9ff"/><rect x="4" y="8" width="16" height="12" rx="2" fill="%23fff"/><rect x="8" y="2" width="2" height="4" rx="1"/><rect x="14" y="2" width="2" height="4" rx="1"/><rect x="7" y="14" width="10" height="2" rx="1" fill="%231a237e"/></svg>') no-repeat center/contain;
+      vertical-align: middle;
+    }
+    .icon-calendar {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="4" fill="%23e3e9ff"/><rect x="3" y="8" width="18" height="14" rx="2" fill="%23fff"/><rect x="7" y="2" width="2" height="4" rx="1"/><rect x="15" y="2" width="2" height="4" rx="1"/></svg>') no-repeat center/contain;
+      vertical-align: middle;
+    }
+    .big-link-btn {
+      background: linear-gradient(90deg, #5c6bc0 0%, #1a237e 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      padding: 12px 28px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px 0 rgba(26,35,126,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .big-link-btn:hover {
+      background: linear-gradient(90deg, #7986cb 0%, #283593 100%);
+      box-shadow: 0 4px 16px 0 rgba(26,35,126,0.13);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .container {
+      max-width: 900px;
+      margin: 36px auto 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px 0 rgba(26,35,126,0.10);
+      padding: 36px 32px 32px 32px;
+    }
+    .controls-card {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      background: #f7faff;
+      border-radius: 12px;
+      padding: 18px 20px 10px 20px;
+      box-shadow: 0 2px 8px 0 rgba(26,35,126,0.04);
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+      min-width: 180px;
+    }
+    .form-row-split {
+      flex-direction: row;
+      gap: 18px;
+    }
+    .form-row-split > div {
+      flex: 1;
+    }
+    label {
+      font-weight: 600;
+      color: #283593;
+      font-size: 1rem;
+    }
+    input[type="text"], input[type="date"], input[type="time"] {
+      border: 1px solid #b0bec5;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #f7faff;
+      transition: border 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border: 1.5px solid #5c6bc0;
+      background: #e3e9ff;
+    }
+    .exam-card {
+      background: #f7faff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px 0 rgba(26,35,126,0.06);
+      padding: 24px 20px 18px 20px;
+      margin-bottom: 18px;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .exam-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 6px 0 rgba(26,35,126,0.04);
+      margin-bottom: 18px;
+    }
+    .exam-table th, .exam-table td {
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 1rem;
+    }
+    .exam-table th {
+      background: #e3e9ff;
+      color: #1a237e;
+      font-weight: 700;
+      border-bottom: 2px solid #b0bec5;
+    }
+    .exam-table tr:not(:last-child) td {
+      border-bottom: 1px solid #e3e9ff;
+    }
+    .actions-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 8px;
+    }
+    .btn {
+      border: none;
+      border-radius: 7px;
+      padding: 10px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 2px 8px 0 rgba(26,35,126,0.07);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn.primary {
+      background: linear-gradient(90deg, #5c6bc0 0%, #1a237e 100%);
+      color: #fff;
+    }
+    .btn.primary:hover {
+      background: linear-gradient(90deg, #7986cb 0%, #283593 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .btn.danger {
+      background: linear-gradient(90deg, #e57373 0%, #c62828 100%);
+      color: #fff;
+    }
+    .btn.danger:hover {
+      background: linear-gradient(90deg, #ef9a9a 0%, #b71c1c 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .btn.secondary {
+      background: #e3e9ff;
+      color: #1a237e;
+    }
+    .btn.secondary:hover {
+      background: #c5cae9;
+    }
+    .btn.full-width {
+      width: 100%;
+      justify-content: center;
+    }
+    .icon-plus {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="10" y="4" width="4" height="16" rx="2"/><rect x="4" y="10" width="16" height="4" rx="2"/></svg>') no-repeat center/contain;
+      vertical-align: middle;
+    }
+    .icon-trash {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: url('data:image/svg+xml;utf8,<svg fill="%23fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="12" rx="2" fill="%23c62828"/><rect x="9" y="3" width="6" height="4" rx="1" fill="%23c62828"/></svg>') no-repeat center/contain;
+      vertical-align: middle;
+    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 18px 4vw 18px 4vw;
+      }
+      .header-content {
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px 4vw 12px 4vw;
+      }
+      .controls-card {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 8px 6px 8px;
+      }
+      .exam-card {
+        padding: 12px 8px 8px 8px;
+      }
+    }
+  </style>
+  <script src="exam.js" defer></script>
+</head>
+<body>
+  <header class="main-header">
+    <div class="header-content">
+      <h1 class="app-title"><span class="icon-exam"></span> Exam Manager</h1>
+      <div style="display:flex;gap:12px;">
+        <a href="index.html" class="big-link-btn">
+          <span class="icon-calendar"></span> Schedule Manager
+        </a>
+        <a href="assignment.html" class="big-link-btn">
+          <span class="icon-assignment"></span> Assignment Manager
+        </a>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <section class="controls-card">
+      <div class="form-row">
+        <button id="add-exam-btn" class="btn primary full-width"><span class="icon-plus"></span> Add Exam</button>
+      </div>
+    </section>
+    <section class="exam-card">
+      <div class="table-responsive">
+        <table class="exam-table">
+          <thead>
+            <tr>
+              <th>Done</th>
+              <th>Title</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="exam-list">
+            <!-- Exams will be added here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="actions-row">
+        <button class="btn danger" id="remove-exam-btn"><span class="icon-trash"></span> Remove Selected</button>
+      </div>
+    </section>
+    <div id="modal-bg" class="modal-bg"></div>
+    <div id="add-exam-modal" class="modal">
+      <h2><span class="icon-plus"></span> Add Exam</h2>
+      <form id="add-exam-form">
+        <div class="form-row">
+          <label for="modal-exam-title">Exam Title:</label>
+          <input type="text" id="modal-exam-title" name="exam-title" required>
+        </div>
+        <div class="form-row">
+          <label for="modal-exam-subject">Subject Name:</label>
+          <input type="text" id="modal-exam-subject" name="exam-subject" required>
+        </div>
+        <div class="form-row form-row-split">
+          <div>
+            <label for="modal-exam-date">Date:</label>
+            <input type="date" id="modal-exam-date" name="exam-date" required>
+          </div>
+          <div>
+            <label for="modal-exam-time">Time:</label>
+            <input type="time" id="modal-exam-time" name="exam-time" required>
+          </div>
+        </div>
+        <button type="submit" class="btn primary full-width"><span class="icon-plus"></span> Add</button>
+        <button type="button" class="btn secondary full-width" id="cancel-modal-btn">Cancel</button>
+      </form>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin:18px 0 0 0;">
+      <ul id="notices" style="flex:1 1 auto; color:#1a237e; font-weight:600; margin:0;"></ul>
+      <button id="clear-notices-btn" class="btn secondary" style="padding:7px 16px;">Clear Notifications</button>
+    </div>
+  </main>
+</body>
+</html>

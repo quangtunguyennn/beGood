@@ -1,0 +1,125 @@
+/* Large professional button for assignment manager link */
+.big-link-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #1a237e 60%, #3949ab 100%);
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 18px 38px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(26,35,126,0.13);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    margin-left: 32px;
+    letter-spacing: 1px;
+    border: none;
+    outline: none;
+}
+.big-link-btn:hover {
+    background: linear-gradient(90deg, #3949ab 60%, #1a237e 100%);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(26,35,126,0.18);
+    transform: translateY(-2px) scale(1.03);
+}
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #1a237e;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(26,35,126,0.08);
+    padding: 32px 40px 40px 40px;
+}
+
+label {
+    font-weight: 500;
+    color: #1a237e;
+}
+
+select {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #b0bec5;
+    background: #e3eafc;
+    color: #1a237e;
+    font-size: 1rem;
+    transition: border 0.2s;
+}
+
+select:focus {
+    border: 1.5px solid #1a237e;
+    outline: none;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 24px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(26,35,126,0.05);
+}
+
+th, td {
+    border: 1px solid #b0bec5;
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+th {
+    background: #1a237e;
+    color: #fff;
+    font-weight: 600;
+}
+
+tr:nth-child(even) td {
+    background: #f0f4f8;
+}
+
+tr:hover td {
+    background: #e3eafc;
+}
+
+button, .btn {
+    background: #1a237e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 6px 0;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(26,35,126,0.08);
+}
+
+button:hover, .btn:hover {
+    background: #3949ab;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(26,35,126,0.12);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #e3eafc;
+}
+::-webkit-scrollbar-thumb {
+    background: #b0bec5;
+    border-radius: 4px;
+}

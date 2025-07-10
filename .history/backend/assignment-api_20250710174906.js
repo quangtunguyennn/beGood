@@ -1,0 +1,30 @@
+const express = require('express');
+const Datastore = require('nedb');
+const router = express.Router();
+
+const db = new Datastore({ filename: './assignments.db', autoload: true });
+
+// Get all assignments
+router.get('/', (req, res) => {
+  db.find({}, (err, docs) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json(docs);
+    }
+  });
+});
+
+// Create a new assignment
+router.post('/', (req, res) => {
+  const newAssignment = req.body;
+  db.insert(newAssignment, (err, newDoc) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).json(newDoc);
+    }
+  });
+});
+
+module.exports = router;

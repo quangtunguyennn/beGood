@@ -1,0 +1,14 @@
+{
+  "name": "exam-manager-backend",
+  "version": "1.0.0",
+  "main": "exam-api.js",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nedb": "^1.8.0"
+  },
+  "scripts": {
+    "start": "node exam-api.js"
+  }
+}

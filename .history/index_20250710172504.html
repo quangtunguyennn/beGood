@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: linear-gradient(120deg, #e3e9ff 0%, #f7faff 100%);
+        font-family: "Inter", Arial, sans-serif;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .main-header {
+        background: #fff;
+        box-shadow: 0 2px 16px 0 rgba(26, 35, 126, 0.07);
+        padding: 0 0 0 0;
+      }
+      .header-content {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 32px 24px 18px 24px;
+      }
+      .app-title {
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #1a237e;
+        letter-spacing: -1px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .icon-calendar {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="4" fill="%23e3e9ff"/><rect x="3" y="8" width="18" height="14" rx="2" fill="%23fff"/><rect x="7" y="2" width="2" height="4" rx="1"/><rect x="15" y="2" width="2" height="4" rx="1"/></svg>')
+          no-repeat center/contain;
+        vertical-align: middle;
+      }
+      .icon-assignment {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="%23e3e9ff"/><rect x="4" y="8" width="16" height="12" rx="2" fill="%23fff"/><rect x="8" y="2" width="2" height="4" rx="1"/><rect x="14" y="2" width="2" height="4" rx="1"/></svg>')
+          no-repeat center/contain;
+        vertical-align: middle;
+      }
+      .big-link-btn {
+        background: linear-gradient(90deg, #5c6bc0 0%, #1a237e 100%);
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        padding: 12px 28px;
+        text-decoration: none;
+        box-shadow: 0 2px 8px 0 rgba(26, 35, 126, 0.08);
+        transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .big-link-btn:hover {
+        background: linear-gradient(90deg, #7986cb 0%, #283593 100%);
+        box-shadow: 0 4px 16px 0 rgba(26, 35, 126, 0.13);
+        transform: translateY(-2px) scale(1.03);
+      }
+      .container {
+        max-width: 900px;
+        margin: 36px auto 0 auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px 0 rgba(26, 35, 126, 0.1);
+        padding: 36px 32px 32px 32px;
+      }
+      .controls-card {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+        background: #f7faff;
+        border-radius: 12px;
+        padding: 18px 20px 10px 20px;
+        box-shadow: 0 2px 8px 0 rgba(26, 35, 126, 0.04);
+      }
+      .term-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .term-select {
+        flex: 1;
+        min-width: 200px;
+      }
+      #new-term-btn {
+        padding: 7px 12px;
+        white-space: nowrap;
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 10px;
+        min-width: 180px;
+      }
+      .form-row-split {
+        flex-direction: row;
+        gap: 18px;
+      }
+      .form-row-split > div {
+        flex: 1;
+      }
+      label {
+        font-weight: 600;
+        color: #283593;
+        font-size: 1rem;
+      }
+      input[type="number"],
+      input[type="text"],
+      input[type="time"],
+      select {
+        border: 1px solid #b0bec5;
+        border-radius: 6px;
+        padding: 7px 10px;
+        font-size: 1rem;
+        font-family: inherit;
+        background: #f7faff;
+        transition: border 0.2s;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border: 1.5px solid #5c6bc0;
+        background: #e3e9ff;
+      }
+      .schedule-card {
+        background: #f7faff;
+        border-radius: 14px;
+        box-shadow: 0 2px 12px 0 rgba(26, 35, 126, 0.06);
+        padding: 24px 20px 18px 20px;
+        margin-bottom: 18px;
+      }
+      .table-responsive {
+        overflow-x: auto;
+      }
+      .schedule-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px 0 rgba(26, 35, 126, 0.04);
+        margin-bottom: 18px;
+      }
+      .schedule-table th,
+      .schedule-table td {
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 1rem;
+      }
+      .schedule-table th {
+        background: #e3e9ff;
+        color: #1a237e;
+        font-weight: 700;
+        border-bottom: 2px solid #b0bec5;
+      }
+      .schedule-table tr:not(:last-child) td {
+        border-bottom: 1px solid #e3e9ff;
+      }
+      .actions-row {
+        display: flex;
+        gap: 18px;
+        margin-top: 8px;
+      }
+      .btn {
+        border: none;
+        border-radius: 7px;
+        padding: 10px 22px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        box-shadow: 0 2px 8px 0 rgba(26, 35, 126, 0.07);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #5c6bc0 0%, #1a237e 100%);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: linear-gradient(90deg, #7986cb 0%, #283593 100%);
+        transform: translateY(-2px) scale(1.03);
+      }
+      .btn.danger {
+        background: linear-gradient(90deg, #e57373 0%, #c62828 100%);
+        color: #fff;
+      }
+      .btn.danger:hover {
+        background: linear-gradient(90deg, #ef9a9a 0%, #b71c1c 100%);
+        transform: translateY(-2px) scale(1.03);
+      }
+      .btn.secondary {
+        background: #e3e9ff;
+        color: #1a237e;
+      }
+      .btn.secondary:hover {
+        background: #c5cae9;
+      }
+      .btn.full-width {
+        width: 100%;
+        justify-content: center;
+      }
+      .icon-plus {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml;utf8,<svg fill="%231a237e" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="10" y="4" width="4" height="16" rx="2"/><rect x="4" y="10" width="16" height="4" rx="2"/></svg>')
+          no-repeat center/contain;
+        vertical-align: middle;
+      }
+      .icon-trash {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('data:image/svg+xml;utf8,<svg fill="%23fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="12" rx="2" fill="%23c62828"/><rect x="9" y="3" width="6" height="4" rx="1" fill="%23c62828"/></svg>')
+          no-repeat center/contain;
+        vertical-align: middle;
+      }
+      .modal-bg {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(26, 35, 126, 0.13);
+        z-index: 1000;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 8px 32px 0 rgba(26, 35, 126, 0.18);
+        padding: 38px 32px 28px 32px;
+        z-index: 1001;
+        min-width: 340px;
+        max-width: 95vw;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal h2 {
+        color: #1a237e;
+        margin-top: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .days-checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 4px;
+      }
+      @media (max-width: 700px) {
+        .container {
+          padding: 18px 4vw 18px 4vw;
+        }
+        .header-content {
+          flex-direction: column;
+          gap: 18px;
+          padding: 24px 4vw 12px 4vw;
+        }
+        .controls-card {
+          flex-direction: column;
+          gap: 12px;
+          padding: 12px 8px 6px 8px;
+        }
+        .schedule-card {
+          padding: 12px 8px 8px 8px;
+        }
+      }
+    </style>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="header-content">
+        <h1 class="app-title">
+          <span class="icon-calendar"></span> Schedule Manager
+        </h1>
+        <div style="display: flex; gap: 12px">
+          <a href="assignment.html" class="big-link-btn">
+            <span class="icon-assignment"></span> Assignment Manager
+          </a>
+          <a href="exam.html" class="big-link-btn">
+            <span class="icon-exam"></span> Exam Manager
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="container">
+      <section class="controls-card">
+        <div class="form-row">
+          <label for="term-list">Current Term:</label>
+          <div class="term-controls">
+            <select id="term-list" class="term-select">
+              <option value="">Select a term...</option>
+            </select>
+            <button class="btn secondary" id="new-term-btn">
+              <span class="icon-plus"></span> New Term
+            </button>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="term-length">Term Length (weeks):</label>
+          <input
+            type="number"
+            id="term-length"
+            min="4"
+            max="52"
+            value="15"
+            required
+          />
+        </div>
+        <div class="form-row">
+          <label for="week-select">Select Week:</label>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <button
+              type="button"
+              class="btn secondary"
+              id="prev-week-btn"
+              style="padding: 6px 14px; min-width: 0"
+            >
+              &#8592; Previous
+            </button>
+            <select id="week-select">
+              <option value="default">Default (All Remaining Weeks)</option>
+            </select>
+            <button
+              type="button"
+              class="btn secondary"
+              id="next-week-btn"
+              style="padding: 6px 14px; min-width: 0"
+            >
+              Next &#8594;
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="schedule-card">
+        <div class="table-responsive">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Course</th>
+                <th>Time</th>
+                <th>Date</th>
+                <th>Notice</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="actions-row">
+          <button class="btn primary" id="add-course-btn">
+            <span class="icon-plus"></span> Add Course
+          </button>
+          <button class="btn danger" id="remove-course-btn">
+            <span class="icon-trash"></span> Remove Course
+          </button>
+          <button
+            class="btn secondary"
+            id="clear-notice-btn"
+            style="margin-left: auto"
+          >
+            <span class="icon-plus"></span> Clear All Notices (This Week)
+          </button>
+        </div>
+      </section>
+      <div id="modal-bg" class="modal-bg"></div>
+      <div id="add-course-modal" class="modal">
+        <h2><span class="icon-plus"></span> Add Course</h2>
+        <form id="add-course-form">
+          <div class="form-row">
+            <label for="course-name">Course Name:</label>
+            <input type="text" id="course-name" name="course-name" required />
+          </div>
+          <div class="form-row">
+            <label for="instructor-name">Instructor Name:</label>
+            <input
+              type="text"
+              id="instructor-name"
+              name="instructor-name"
+              required
+            />
+          </div>
+          <div class="form-row form-row-split">
+            <div>
+              <label for="start-time">Start Time:</label>
+              <input type="time" id="start-time" name="start-time" required />
+            </div>
+            <div>
+              <label for="end-time">End Time:</label>
+              <input type="time" id="end-time" name="end-time" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Days of the Week:</label>
+            <div class="days-checkboxes">
+              <label
+                ><input type="checkbox" name="days" value="Monday" /> Mon</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Tuesday" />
+                Tue</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Wednesday" />
+                Wed</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Thursday" />
+                Thu</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Friday" /> Fri</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Saturday" />
+                Sat</label
+              >
+              <label
+                ><input type="checkbox" name="days" value="Sunday" /> Sun</label
+              >
+            </div>
+          </div>
+          <button type="submit" class="btn primary full-width">
+            <span class="icon-plus"></span> Add
+          </button>
+          <button
+            type="button"
+            class="btn secondary full-width"
+            id="cancel-modal-btn"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </main>
+    <div id="new-term-modal" class="modal">
+      <h2><span class="icon-plus"></span> Create New Term</h2>
+      <form id="new-term-form">
+        <div class="form-row">
+          <label for="term-name">Term Name:</label>
+          <input
+            type="text"
+            id="term-name"
+            name="term-name"
+            required
+            placeholder="e.g., Fall 2025"
+          />
+        </div>
+        <div class="form-row">
+          <label for="new-term-length">Term Length (weeks):</label>
+          <input
+            type="number"
+            id="new-term-length"
+            name="term-length"
+            required
+            min="1"
+            max="52"
+            value="15"
+          />
+        </div>
+        <div class="form-row">
+          <label for="term-start-date">Start Date:</label>
+          <input
+            type="date"
+            id="term-start-date"
+            name="term-start-date"
+            required
+          />
+        </div>
+        <button type="submit" class="btn primary full-width">
+          <span class="icon-plus"></span> Create Term
+        </button>
+        <button
+          type="button"
+          class="btn secondary full-width"
+          id="cancel-term-modal-btn"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+    <div
+      id="error-container"
+      style="
+        display: none;
+        color: #c62828;
+        font-weight: 600;
+        margin: 16px 0 0 0;
+      "
+    ></div>
+  </body>
+</html>
